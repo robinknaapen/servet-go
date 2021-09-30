@@ -1,0 +1,121 @@
+openapi: "3.0.0"
+
+info:
+  title: Server
+  description: Server
+  version: 1.0.0
+
+servers: 
+  - url: http://localhost:8080
+    description: localhost
+
+tags:
+  - name: service
+    description: Manage services
+  - name: subscription
+    description: Manage subscriptions
+
+paths:
+  /services:
+    get:
+      tags:
+        - service
+      summary: services
+      description: Get all services
+      responses:
+        200:
+          description: All services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/service'
+  /services/{id}:
+    get:
+      tags:
+        - service
+      summary: service
+      description: Get a servicew
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/service'
+        400:
+          description: not found
+  /subscriptions:
+    put:
+      tags:
+        - subscription
+      summary: subscribe
+      description: Subscribe to a service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: service_id
+              type: integer
+      responses:
+        200:
+          description: Successfuly subscribed
+        404:
+          description: Given service_id was not found
+    get:
+      tags:
+        - subscription
+      summary: subscriptions
+      description: Get all subscriptions
+      responses:
+        200:
+          description: OK
+  /subscriptions/{id}:
+    delete:
+      tags:
+        - subscription
+      summary: unsubscribe
+      description: delete subscription
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            description: subscription_id
+      responses:
+        200:
+          description: Successfuly unsubscribed
+components:
+  schemas:
+    service:
+      type: object
+      required:
+       - id
+       - name
+       - state
+       - object_path
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        state:
+          $ref: "#/components/schemas/service_state"
+        object_path:
+          type: string
+    service_state:
+      type: string
+      enum:
+        - dead
+        - exited
+        - waiting
+        - running
+        - failed

@@ -1,0 +1,39 @@
+[
+    {
+        "name": "public.service",
+        "fields": [
+            {
+                "name": "id",
+                "data_type": "integer",
+                "size": 4
+            },
+            {
+                "name": "name",
+                "data_type": "character varying"
+            },
+            {
+                "name": "object_path",
+                "data_type": "character varying"
+            },
+            {
+                "name": "state",
+                "data_type": "state_type",
+                "size": 4
+            }
+        ]
+    },
+    {
+        "name": "public.subscription",
+        "fields": [
+            {
+                "name": "id",
+                "data_type": "integer",
+                "size": 4
+            },
+            {
+                "name": "service_id",
+                "data_type": "integer"
+            }
+        ]
+    }
+]
